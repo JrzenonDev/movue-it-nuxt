@@ -1,29 +1,29 @@
-import { MutationTree } from 'vuex'
+import { State, Getters, Mutations, MutationsInterface } from './types'
 
-export interface State {
-  time: number;
-  isActive: boolean;
-  hasCompleted: boolean;
-}
+const MINUTES = 25;
 
-export interface Getters {
-  minutes: (state: State) => number;
-  seconds: (state: State) => number;
-}
+export const state = (): State => ({
+  time: MINUTES * 60,
+  isActive: false,
+  hasCompleted: false,
+});
 
-export enum Mutations {
-  SET_TIME = 'SET_TIME',
-  RESET_TIME = 'RESET_TIME',
-  SET_IS_ACTIVE = 'SET_IS_ACTIVE',
-  SET_HAS_COMPLETED = 'SET_HAS_COMPLETED',
-}
+export const getters: Getters = {
+  minutes: state => Math.floor(state.time / 60),
+  seconds: state => state.time % 60,
+};
 
-export type RootState = ReturnType<() => State>
-
-export interface MutationsInterface extends MutationTree<RootState> {
-  [Mutations.SET_TIME](s: State, p: Number): void;
-  [Mutations.RESET_TIME](s: State): void;
-  [Mutations.SET_IS_ACTIVE](s: State, p: boolean): void;
-  [Mutations.SET_HAS_COMPLETED](s: State, p: boolean): void;
-
-}
+export const mutations: MutationsInterface = {
+  [Mutations.SET_TIME] (state, newTime) {
+    state.time = newTime;
+  },
+  [Mutations.RESET_TIME] (state) {
+    state.time = MINUTES * 60;
+  },
+  [Mutations.SET_IS_ACTIVE] (state, isActive) {
+    state.isActive = isActive;
+  },
+  [Mutations.SET_HAS_COMPLETED] (state, hasCompleted) {
+    state.hasCompleted = hasCompleted;
+  },
+};
