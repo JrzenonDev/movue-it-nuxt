@@ -39,7 +39,12 @@ import { Mutations as CountDownMT } from '~/store/Countdown/types'
 
 import CompletedChallenges from '~/components/atoms/CompletedChallenge.vue';
 import Profile from '~/components/molecules/Profile.vue';
-import CountDown from '~/components/molecules/CountDown.vue';
+import Countdown from '~/components/molecules/Countdown.vue';
+
+import {
+  playAudio,
+  sendNotification
+} from '~/utils';
 
 interface Head {
   title: string
@@ -53,8 +58,39 @@ export default Vue.extend({
   },
   components: {
     CompletedChallenges,
-    CountDown,
+    Countdown,
     Profile,
+  },
+  mounted () {
+    if ('Notification' in window) {
+      Notification.requestPermission();
+    }
+  },
+  computed: {
+    ...mapState('Countdown', {
+      hasCountDownCompleted: 'hasCompleted',
+      isCountDownActive: 'isActive',
+    })
+  },
+  methods: {
+    ...mapMutations({
+      setCountDownHasCompleted: `Countdown/${CountDownMT.SET_HAS_COMPLETED}`,
+      setCountDownIsActive: `Countdown/${CountDownMT.SET_IS_ACTIVE}`
+    }),
+    setCountDownState (flag: boolean) {
+      this.setCountDownHasCompleted(false);
+      this.setCountDownIsActive(flag);
+    },
+    getNewChallenge () {
+      this.setCountDownHasCompleted(true);
+      if (Notification?.permission === 'granted') {
+        playAudio('/notification.mp3');
+        sendNotification('New Challenge!', {
+          body: 'A new challenge has started! Go complete it!',
+          icon: '/favicon.png',
+        });
+      }
+    }
   }
 });
 </script>
