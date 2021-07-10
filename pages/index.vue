@@ -29,7 +29,7 @@
 
     </div>
 
-    <Card id="challenge" class="w-full lg:w-1/2">
+    <Card id="challenge" class="w-full lg:w-1/2" />
 
   </section>
 </template>
@@ -44,6 +44,7 @@ import { Mutations as CountdownMT } from '~/store/Countdown/types';
 import CompletedChallenges from '~/components/atoms/CompletedChallenges.vue';
 import Profile from '~/components/molecules/Profile.vue';
 import Countdown from '~/components/molecules/Countdown.vue';
+import Card from '~/components/organisms/Card.vue';
 
 import {
   scrollToElement,
@@ -66,6 +67,7 @@ export default Vue.extend({
     CompletedChallenges,
     Countdown,
     Profile,
+    Card
   },
   mounted () {
     if ('Notification' in window) {
