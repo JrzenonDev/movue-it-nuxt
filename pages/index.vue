@@ -46,6 +46,7 @@ import Profile from '~/components/molecules/Profile.vue';
 import Countdown from '~/components/molecules/Countdown.vue';
 
 import {
+  scrollToElement,
   playAudio,
   sendNotification,
   getRandomNumber
