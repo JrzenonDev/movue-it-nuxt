@@ -29,7 +29,7 @@
 
     </div>
 
-    <Card class="w-full lg:w-1/2">
+    <Card id="challenge" class="w-full lg:w-1/2">
 
   </section>
 </template>
@@ -101,6 +101,11 @@ export default Vue.extend({
           icon: '/favicon.png',
         });
       }
+
+      this.$nextTick(() => {
+        scrollToElement('#challeng');
+      });
+
     }
   }
 });
