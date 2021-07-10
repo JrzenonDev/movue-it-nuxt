@@ -10,4 +10,4 @@ export default {
     (typeof state.currentChallengeIndex === 'number')
       ? state.allChallenges[state.currentChallengeIndex]
       : null,
-} as Getters
+} as Getters;

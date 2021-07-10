@@ -17,7 +17,7 @@ import { splitValue } from '~/utils';
 
 export default Vue.extend({
   props: {
-    digits: { type: Number, required: true},
+    digits: { type: Number, required: true },
   },
   computed: {
     splittedDigits (): string[] {

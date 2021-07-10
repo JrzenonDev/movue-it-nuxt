@@ -1,4 +1,4 @@
-import { MutationTree } from 'vuex'
+import { MutationTree } from 'vuex';
 
 export interface State {
   time: number;

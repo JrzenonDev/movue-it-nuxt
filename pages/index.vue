@@ -6,14 +6,14 @@
       <Countdown @completed="getNewChallenge" />
 
       <button
-        v-if="hasCountDownCompleted"
+        v-if="hasCountdownCompleted"
         disabled
         class="button completed"
       >
         Cycle completed
       </button>
       <button
-        v-else-if="isCountDownActive"
+        v-else-if="isCountdownActive"
         class="button abandon"
         @click="setCountDownState(false)"
       >
@@ -32,12 +32,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
 
 import { mapState, mapMutations } from 'vuex'
-import { Mutations as CountDownMT } from '~/store/Countdown/types'
+import { Mutations as CountdownMT } from '~/store/Countdown/types';
 
-import CompletedChallenges from '~/components/atoms/CompletedChallenge.vue';
+import CompletedChallenges from '~/components/atoms/CompletedChallenges.vue';
 import Profile from '~/components/molecules/Profile.vue';
 import Countdown from '~/components/molecules/Countdown.vue';
 
@@ -47,11 +47,11 @@ import {
 } from '~/utils';
 
 interface Head {
-  title: string
+  title: string;
 }
 
 export default Vue.extend({
-  head(): Head {
+  head (): Head {
     return {
       title: 'Home | movue.it',
     }
@@ -68,22 +68,26 @@ export default Vue.extend({
   },
   computed: {
     ...mapState('Countdown', {
-      hasCountDownCompleted: 'hasCompleted',
-      isCountDownActive: 'isActive',
-    })
+      hasCountdownCompleted: 'hasCompleted',
+      isCountdownActive: 'isActive',
+    }),
   },
   methods: {
     ...mapMutations({
-      setCountDownHasCompleted: `Countdown/${CountDownMT.SET_HAS_COMPLETED}`,
-      setCountDownIsActive: `Countdown/${CountDownMT.SET_IS_ACTIVE}`
+      setCountdownHasCompleted: `Countdown/${CountdownMT.SET_HAS_COMPLETED}`,
+      setCountdownIsActive: `Countdown/${CountdownMT.SET_IS_ACTIVE}`,
+
     }),
     setCountDownState (flag: boolean) {
-      this.setCountDownHasCompleted(false);
-      this.setCountDownIsActive(flag);
+      this.setCountdownHasCompleted(false);
+      this.setCountdownIsActive(flag);
     },
     getNewChallenge () {
-      this.setCountDownHasCompleted(true);
+      this.setCountdownHasCompleted(true);
+      let test = this.setCountdownHasCompleted(true);
+      console.log('entrou no getnewChallenge', test);
       if (Notification?.permission === 'granted') {
+        console.log('entrou na matrix');
         playAudio('/notification.mp3');
         sendNotification('New Challenge!', {
           body: 'A new challenge has started! Go complete it!',
