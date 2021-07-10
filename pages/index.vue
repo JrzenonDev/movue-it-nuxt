@@ -28,13 +28,17 @@
       </button>
 
     </div>
+
+    <Card class="w-full lg:w-1/2">
+
   </section>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapGetters, mapMutations } from 'vuex'
+import { Mutations as ChallengesMT } from '~/store/Challenges/types';
 import { Mutations as CountdownMT } from '~/store/Countdown/types';
 
 import CompletedChallenges from '~/components/atoms/CompletedChallenges.vue';
@@ -43,7 +47,8 @@ import Countdown from '~/components/molecules/Countdown.vue';
 
 import {
   playAudio,
-  sendNotification
+  sendNotification,
+  getRandomNumber
 } from '~/utils';
 
 interface Head {
@@ -71,11 +76,13 @@ export default Vue.extend({
       hasCountdownCompleted: 'hasCompleted',
       isCountdownActive: 'isActive',
     }),
+    ...mapGetters('Challenges', ['challengesLength']),
   },
   methods: {
     ...mapMutations({
       setCountdownHasCompleted: `Countdown/${CountdownMT.SET_HAS_COMPLETED}`,
       setCountdownIsActive: `Countdown/${CountdownMT.SET_IS_ACTIVE}`,
+      setCurrentChallengeIndex: `Challenges/${ChallengesMT.SET_CURRENT_CHALLENGE_INDEX}`,
 
     }),
     setCountDownState (flag: boolean) {
@@ -83,11 +90,11 @@ export default Vue.extend({
       this.setCountdownIsActive(flag);
     },
     getNewChallenge () {
+      const index = getRandomNumber(0, this.challengesLength);
       this.setCountdownHasCompleted(true);
-      let test = this.setCountdownHasCompleted(true);
-      console.log('entrou no getnewChallenge', test);
+      this.setCurrentChallengeIndex(index);
+
       if (Notification?.permission === 'granted') {
-        console.log('entrou na matrix');
         playAudio('/notification.mp3');
         sendNotification('New Challenge!', {
           body: 'A new challenge has started! Go complete it!',
